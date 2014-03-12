@@ -30,4 +30,3 @@ for words in checkList:
                 answer += x+","
 
 print("\n"+answer[:-1])
-print("test")
