@@ -8,13 +8,14 @@ import http.cookiejar
 
 username = "username"
 password = "password"
+phpSESSID = ""
 
 cj = http.cookiejar.CookieJar()
 opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
 login_data = urllib.parse.urlencode({'username': username, 'password': password})
 binary_data = login_data.encode('ascii')
 opener.open("https://www.hackthissite.org/user/login", binary_data)
-opener.addheaders.append(('Cookie', 'PHPSESSID=b8i37t5i8r9ppoddc1kbqqi180'))
+opener.addheaders.append(('Cookie', phpSESSID))
 resp = opener.open("https://www.hackthissite.org/missions/prog/11/")
 
 URLString = resp.read().decode("utf-8")
