@@ -5,6 +5,9 @@ import urllib.parse
 import urllib.request
 import http.cookiejar
 
+# This script was made for HTS programming challenge 11, it reverses a simple cipher text.
+# The script logs me in on the website, goes to the correct page and obtains the cipher and shift.
+# Afterwards it decodes it and inputs it on the site, completing the challenge in less than 3 seconds.
 
 username = "username"
 password = "password"
