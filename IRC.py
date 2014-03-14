@@ -25,4 +25,16 @@ while 1:
         if line[0] == bytes("PING", 'utf-8'):
             print('PONG')
             irc.send(bytes('PONG ' + str(line[1])+'\r\n', 'utf-8'))
+    elif line.find(bytes('PRIVMSG', 'utf-8')) != -1:
+        completeLine = str(line[1:]).split(':', 1)
+        info = completeLine[0].split()
+        message = completeLine[1].split("\\")[0]
+        sender = info[0][2:].split("!", 1)[0]
+        print("Complete Line-->"+str(completeLine))
+        print("Info-->"+str(info))
+        print("Message-->"+str(message))
+        print("Sender-->"+str(sender)+"\n")
+        if message.lower() == "hi":
+            irc.send(bytes('PRIVMSG '+BOT_IRC_CHANNEL+' :Hi there, '+str(sender)+'!\r\n', 'utf-8'))
+
 
