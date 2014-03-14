@@ -2,6 +2,10 @@ __author__ = 'Jeroen'
 
 import re
 
+# I made this script to unscramble words which were randomly taken from a wordlist.
+# The answer had to be given in the format : word1,word2,word3 etc.
+# I managed to complete the challenge with this script , however there is still a bug in it.
+
 fileList = open("wordlist.txt", 'r')
 enterList = open("enterlist.txt", 'r')
 wordList = []
