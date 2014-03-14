@@ -1,6 +1,10 @@
 __author__ = 'root'
 from PIL import Image
 
+# I wrote this script to complete HTS programming challenge 2. I wrote it in Python 2.7 so it does not work in Python 3
+# The challenge was to obtain a code from an image which were a few dots on a black background. The code was given in
+# morse so it also had to be translated back afterwards.
+
 image_file = Image.open("PNG.png")
 pix = image_file.load()
 
