@@ -1,12 +1,15 @@
 __author__ = 'Jeroen'
 
 import socket
+import hashlib
+from time import sleep
 
 BOT_IRC_SERVER = "hub.irc.hackthissite.org"
 BOT_IRC_CHANNEL = "#perm8"
 BOT_IRC_PORT = 6667
 BOT_NICKNAME = "xjBot"
 BOT_OWNER = "xjeroen"
+BOT_PASSWORD = "password"
 
 
 def pingChecker(pingLine):
@@ -32,10 +35,18 @@ def messagechecker(msgLine):
         messageCommand = message[1:].split()
         if messageCommand[0] == "Author":
             irc.send(bytes('PRIVMSG ' + BOT_IRC_CHANNEL + ' :I was created by ' + BOT_OWNER + '\r\n', 'utf-8'))
+    if message.lower()[0:4] == '!md5':  # checks if the server sends the message
+        messageString = message.split('!md5 ')[1:]
+        print("messageString-->"+messageString[0])
+        hash = hashlib.md5(messageString[0].encode('utf-8')).hexdigest()  # encrypts the message with md5
+        print("hash-->"+hash)
+        irc.send(bytes('NOTICE moo !perm8-result '+hash+'\r\n', 'utf-8'))  # sends the encrypted message back to the server
+
 
 
 def sendmessage(rcv, msg):
-    irc.send(bytes('PRIVMSG ' + rcv + ' :' + msg + ' \r\n', 'utf-8'))
+    print(bytes('PRIVMSG ' + rcv + ' :' + msg + '\r\n', 'utf-8'))
+    irc.send(bytes('PRIVMSG ' + rcv + ' :' + msg + '\r\n', 'utf-8'))
 
 
 irc = socket.socket()  # socket.AF_INET, socket.SOCK_STREAM
@@ -45,13 +56,16 @@ irc.send(bytes('NICK ' + BOT_NICKNAME + '\r\n', 'utf-8'))
 pingChecker(irc.recv(4096))
 irc.send(bytes('USER xjBot xjBot xjBot : xj IRC\r\n', 'utf-8'))
 pingChecker(irc.recv(4096))
-irc.send(bytes('JOIN ' + BOT_IRC_CHANNEL + '\r\n', 'utf-8'))
-sendmessage('xjero', 'Hi')
+#irc.send(bytes('JOIN ' + BOT_IRC_CHANNEL + '\r\n', 'utf-8'))
+sendmessage('NickServ', 'IDENTIFY '+BOT_NICKNAME+' '+BOT_PASSWORD)
+sleep(1)
+irc.send(bytes('NOTICE moo !perm8\r\n', 'utf-8'))
 
 while 1:
     line = irc.recv(4096)
     print(line)
     pingChecker(line)
     if line.find(bytes('PRIVMSG', 'utf-8')) != -1:
-        #messagechecker(line)
-        None
+        messagechecker(line)
+    if line.find(bytes('NOTICE', 'utf-8')) != -1:
+        messagechecker(line)
