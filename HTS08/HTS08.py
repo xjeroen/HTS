@@ -2,14 +2,13 @@ __author__ = 'Jeroen'
 
 import socket
 import hashlib
-from time import sleep
 
 BOT_IRC_SERVER = "irc-hub.hackthissite.org"
 BOT_IRC_CHANNEL = "#perm8"
 BOT_IRC_PORT = 6667
 BOT_NICKNAME = "xjBot"
 BOT_OWNER = "xjeroen"
-BOT_PASSWORD = "password"
+BOT_PASSWORD = "Password"
 
 
 def pingChecker(pingLine):
@@ -46,7 +45,6 @@ def messagechecker(msgLine):
             irc.send(bytes('NOTICE moo :\001VERSION xjBot:1.0:Windows\001\r\n', 'utf-8'))  # return VERSION
         if message.find('!perm8-attack'):
             irc.send(bytes('JOIN #takeoverz\r\n', 'utf-8'))
-            sleep(0.5)
             irc.send(bytes('KICK #takeoverz moo\r\n', 'utf-8'))
 
 
